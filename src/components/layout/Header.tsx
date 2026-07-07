@@ -40,15 +40,17 @@ export function Header(props: any) {
   };
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `nav-link-laptop text-sm xl:text-[15px] font-semibold px-2.5 xl:px-3 py-1 xl:py-1.5 rounded-full whitespace-nowrap ${isActive ? "is-active" : ""}`;
+    `nav-link-laptop text-sm xl:text-[15px] font-semibold px-3 xl:px-4 py-1.5 rounded-full whitespace-nowrap transition-all ${isActive ? "is-active" : ""}`;
 
   const navLinkStyle = ({ isActive }: { isActive: boolean }) =>
     isActive ? { color: PRIMARY, background: PRIMARY_LIGHT, fontWeight: 700 } : { color: "#374151" };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm border-b w-full" style={{ borderColor: G[100] }}>
-      {/* Top Main Row - Height Reduced via Padding */}
-      <div className={`${CONTAINER} py-1.5 lg:py-2 flex items-center gap-2 lg:gap-5`}>
+      {/* Top Main Row */}
+      <div className={`${CONTAINER} py-1.5 lg:py-2 flex items-center justify-between gap-4 w-full`}>
+        
+        {/* Logo Section */}
         <div className="flex items-center gap-2 lg:gap-3 flex-shrink-0 min-w-0">
           <button className="lg:hidden flex-shrink-0" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -65,8 +67,8 @@ export function Header(props: any) {
           </NavLink>
         </div>
 
-        {/* Navigation Links - Reduced Padding */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-2 flex-shrink-0 flex-wrap ml-2 xl:ml-4">
+        {/* Laptop Navigation - Covers Full Center Space Horizontally */}
+        <nav className="hidden lg:flex flex-1 items-center justify-center gap-1 xl:gap-3 max-w-5xl mx-4">
           {navLinks.map(l => (
             <NavLink
               key={l.page}
@@ -78,17 +80,29 @@ export function Header(props: any) {
               {l.label}
             </NavLink>
           ))}
+          
+          {/* Nearby Shop Integrated perfectly after Contact */}
+          <NavLink
+            to={STORE_ROUTES.nearby}
+            className={navLinkClass}
+            style={navLinkStyle}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <span className="flex items-center gap-1">
+              <NearbyStoreIcon size={16} active={page === "nearby"} /> Nearby Store
+            </span>
+          </NavLink>
         </nav>
 
-        {/* Action Buttons - Optimized Sizing */}
-        <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 flex-shrink-0 ml-auto">
-          <button type="button" onClick={goToAccountOrAuth} className="nav-icon-laptop hidden md:flex items-center gap-1.5 text-sm font-semibold px-2.5 lg:px-3 py-1.5 rounded-full hover:bg-green-50 transition-colors" style={{ color: PRIMARY }}>
-            <User size={18} className="lg:w-[20px] lg:h-[20px]" /> {isAuthenticated ? "Account" : "Login"}
-          </button>
+        {/* Action Buttons & Account - End of Right Side Edge */}
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0 ml-auto lg:ml-0">
+          {/* Notification Icon */}
           <button type="button" className="nav-icon-laptop w-8 h-8 lg:w-9 lg:h-9 relative flex items-center justify-center rounded-full hover:bg-green-50 text-gray-500 transition-colors">
             <BellIcon size={18} className="lg:w-[20px] lg:h-[20px]" />
             <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-red-500" />
           </button>
+
+          {/* Wishlist Icon */}
           <NavLink to={STORE_ROUTES.wishlist} className="nav-icon-laptop w-8 h-8 lg:w-9 lg:h-9 relative flex items-center justify-center rounded-full hover:bg-green-50 text-gray-500 transition-colors">
             <Heart size={18} className="lg:w-[20px] lg:h-[20px]" />
             {wishlist.length > 0 && (
@@ -97,15 +111,9 @@ export function Header(props: any) {
               </span>
             )}
           </NavLink>
-          <NavLink
-            to={STORE_ROUTES.nearby}
-            title="Nearby Shop"
-            className="nav-icon-laptop w-8 h-8 lg:w-9 lg:h-9 flex items-center justify-center rounded-full hover:bg-green-50 transition-colors"
-            style={{ color: page === "nearby" ? PRIMARY : "#6b7280" }}
-          >
-            <NearbyStoreIcon size={18} active={page === "nearby"} />
-          </NavLink>
-          <NavLink to={STORE_ROUTES.cart} className="nav-icon-laptop w-8 h-8 lg:w-9 lg:h-9 relative flex items-center justify-center rounded-full hover:bg-green-50 text-gray-500 transition-colors">
+
+          {/* Cart Icon */}
+          <NavLink to={STORE_ROUTES.cart} className="nav-icon-laptop w-8 h-8 lg:w-9 lg:h-9 relative flex items-center justify-center rounded-full hover:bg-green-50 text-gray-500 transition-colors mr-1 lg:mr-2">
             <ShoppingCart size={18} className="lg:w-[20px] lg:h-[20px]" />
             {cartCount > 0 && (
               <span className="absolute top-0 right-0 w-3.5 h-3.5 text-white text-[8px] font-bold rounded-full flex items-center justify-center" style={{ background: PRIMARY }}>
@@ -113,6 +121,17 @@ export function Header(props: any) {
               </span>
             )}
           </NavLink>
+
+          {/* Account/Login Button - Always pushed to the Far Right Edge */}
+          <button 
+            type="button" 
+            onClick={goToAccountOrAuth} 
+            className="nav-icon-laptop flex items-center gap-1.5 text-sm font-bold px-3.5 py-1.5 rounded-full border hover:bg-green-50 transition-all shadow-sm" 
+            style={{ color: PRIMARY, borderColor: PRIMARY_LIGHT }}
+          >
+            <User size={18} className="lg:w-[19px] lg:h-[19px]" /> 
+            <span>{isAuthenticated ? "Account" : "Login"}</span>
+          </button>
         </div>
       </div>
 
@@ -133,13 +152,18 @@ export function Header(props: any) {
         </div>
       </div>
 
-      <CategoryStrip
-        activeId={filterBrand}
-        onSelect={id => {
-          setFilterBrand(id);
-          navigate("products");
-        }}
-      />
+      {/* CategoryStrip (Doctor, Organic, Maatifresh, Ayurved) - Full Width Background */}
+      {(page === "home" || page === "products") && (
+        <div className="w-full lg:-mt-2 lg:-mb-2 overflow-hidden">
+          <CategoryStrip
+            activeId={filterBrand}
+            onSelect={id => {
+              setFilterBrand(id);
+              navigate("products");
+            }}
+          />
+        </div>
+      )}
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
@@ -159,6 +183,13 @@ export function Header(props: any) {
               {l.label}
             </NavLink>
           ))}
+          <NavLink
+            to={STORE_ROUTES.nearby}
+            onClick={() => setMobileMenuOpen(false)}
+            className="block w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700"
+          >
+            Nearby Store
+          </NavLink>
           <div className="px-5 pt-2 border-t mt-1" style={{ borderColor: G[100] }}>
             <button onClick={goToAccountOrAuth} className="flex items-center gap-2 text-xs font-bold" style={{ color: PRIMARY }}>
               <User size={12} /> {isAuthenticated ? "My Account" : "Login / Sign Up"}
