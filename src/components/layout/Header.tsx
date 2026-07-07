@@ -50,19 +50,23 @@ export function Header(props: any) {
       {/* Top Main Row */}
       <div className="w-full px-4 lg:px-6 py-1.5 flex items-center justify-between gap-2 md:gap-4">
         
-        {/* Logo Section */}
+        {/* Logo Section - Enhanced height & alignment for laptop view */}
         <div className="flex items-center gap-2 flex-shrink-0 min-w-0">
           <button className="lg:hidden flex-shrink-0" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
 
-          <NavLink to={STORE_ROUTES.home} className="min-w-0 flex items-center gap-1.5 md:gap-2 text-left">
-            <img src={LOGO_SRC} alt="Matti Tatva Logo" className="h-7 md:h-9 w-auto object-contain flex-shrink-0" />
+          <NavLink to={STORE_ROUTES.home} className="min-w-0 flex items-center gap-1.5 md:gap-2 text-left self-center">
+            <img 
+              src={LOGO_SRC} 
+              alt="Matti Tatva Logo" 
+              className="h-7 md:h-9 lg:h-11 w-auto object-contain flex-shrink-0 align-middle" 
+            />
             <span
-              className="hidden sm:block text-[10px] md:text-xs font-extrabold tracking-wide uppercase max-w-[140px] md:max-w-[180px] lg:max-w-[130px] xl:max-w-[200px] leading-tight transition-colors hover:opacity-90 truncate lg:whitespace-normal"
+              className="hidden sm:block text-[10px] md:text-xs font-extrabold tracking-wide uppercase max-w-[140px] md:max-w-[180px] lg:max-w-[220px] xl:max-w-[300px] leading-tight transition-colors hover:opacity-90 truncate lg:whitespace-normal"
               style={{ color: PRIMARY, fontFamily: "'Playfair Display', serif" }}
             >
-              Matti Tatva
+              MATTI TATVA AGRO INDUSTRIES PVT. LTD.
             </span>
           </NavLink>
         </div>
@@ -152,9 +156,9 @@ export function Header(props: any) {
         </div>
       </div>
 
-      {/* FIXED: Target Height Reduction for Doctor, Organic, Maatifresh, Ayurved Strip */}
+      {/* CHANGED: Laptop view padding completely optimized to reduce height for Doctor, Organic strip */}
       {(page === "home" || page === "products") && (
-        <div className="w-full lg:py-0.5 border-t overflow-hidden bg-transparent [&_button]:py-1 [&_button]:my-0 [&_button]:text-xs [&_img]:h-4 lg:[&_div]:gap-2">
+        <div className="w-full lg:py-0 border-t overflow-hidden bg-transparent lg:[&_button]:py-0.5 lg:[&_button]:my-0 lg:[&_button]:text-[11px] lg:[&_img]:h-3.5 lg:[&_div]:gap-1.5">
           <CategoryStrip
             activeId={filterBrand}
             onSelect={id => {
