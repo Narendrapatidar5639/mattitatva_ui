@@ -50,7 +50,7 @@ export function Header(props: any) {
       {/* Top Main Row */}
       <div className="w-full px-4 lg:px-6 py-1.5 flex items-center justify-between gap-2 md:gap-4">
         
-        {/* Logo Section - Enhanced height & alignment for laptop view */}
+        {/* Logo Section */}
         <div className="flex items-center gap-2 flex-shrink-0 min-w-0">
           <button className="lg:hidden flex-shrink-0" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -71,8 +71,8 @@ export function Header(props: any) {
           </NavLink>
         </div>
 
-        {/* Laptop Navigation - Full Center Space Coverage & Fluid Responsive */}
-        <nav className="hidden lg:flex flex-1 items-center justify-center gap-1 xl:gap-2.5 mx-2 min-w-0 overflow-x-auto no-scrollbar">
+        {/* FIXED: Added scrollbar-none to completely hide the horizontal scrollbar line */}
+        <nav className="hidden lg:flex flex-1 items-center justify-center gap-1 xl:gap-2.5 mx-2 min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {navLinks.map(l => (
             <NavLink
               key={l.page}
@@ -85,7 +85,7 @@ export function Header(props: any) {
             </NavLink>
           ))}
           
-          {/* Nearby Shop Link after Contact */}
+          {/* Nearby Shop Link */}
           <NavLink
             to={STORE_ROUTES.nearby}
             className={navLinkClass}
@@ -98,15 +98,13 @@ export function Header(props: any) {
           </NavLink>
         </nav>
 
-        {/* Action Buttons & Account - Perfectly Fits in laptop view without clipping */}
+        {/* Action Buttons & Account */}
         <div className="flex items-center gap-1 xl:gap-2 flex-shrink-0">
-          {/* Notification Icon */}
           <button type="button" className="w-8 h-8 relative flex items-center justify-center rounded-full hover:bg-green-50 text-gray-500 transition-colors">
             <BellIcon size={18} />
             <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-500" />
           </button>
 
-          {/* Wishlist Icon */}
           <NavLink to={STORE_ROUTES.wishlist} className="w-8 h-8 relative flex items-center justify-center rounded-full hover:bg-green-50 text-gray-500 transition-colors">
             <Heart size={18} />
             {wishlist.length > 0 && (
@@ -116,7 +114,6 @@ export function Header(props: any) {
             )}
           </NavLink>
 
-          {/* Cart Icon */}
           <NavLink to={STORE_ROUTES.cart} className="w-8 h-8 relative flex items-center justify-center rounded-full hover:bg-green-50 text-gray-500 transition-colors mr-1">
             <ShoppingCart size={18} />
             {cartCount > 0 && (
@@ -126,7 +123,6 @@ export function Header(props: any) {
             )}
           </NavLink>
 
-          {/* Account/Login Button - Always Visible on Right Edge */}
           <button 
             type="button" 
             onClick={goToAccountOrAuth} 
@@ -156,7 +152,7 @@ export function Header(props: any) {
         </div>
       </div>
 
-      {/* CHANGED: Laptop view padding completely optimized to reduce height for Doctor, Organic strip */}
+      {/* Doctor, Organic, Maatifresh Strip */}
       {(page === "home" || page === "products") && (
         <div className="w-full lg:py-0 border-t overflow-hidden bg-transparent lg:[&_button]:py-0.5 lg:[&_button]:my-0 lg:[&_button]:text-[11px] lg:[&_img]:h-3.5 lg:[&_div]:gap-1.5">
           <CategoryStrip
