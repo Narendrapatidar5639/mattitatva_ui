@@ -9,18 +9,48 @@ import {
   Linkedin, Users, Store, Percent, Handshake, FileText, Droplets, Wheat, Bug, Cog
 } from "lucide-react";
 import type { Page, Product } from "../types";
-import { BRAND_CATEGORIES, BRAND_SHOP_CATEGORIES, HOME_EVENTS, HOME_NEWS, HOME_SERVICES, SERVICE_ICONS, TESTIMONIALS, HERO_SLIDES } from "../data/appData";
+import { BRAND_CATEGORIES, BRAND_SHOP_CATEGORIES, HOME_NEWS, HOME_SERVICES, SERVICE_ICONS, TESTIMONIALS, HERO_SLIDES } from "../data/appData";
 import { LOGO_SRC } from "../constants/branding";
 import { CONTAINER, FONT_BODY, FONT_DISPLAY, FONT_LABEL, G, PAGE_BG, PRIMARY, PRIMARY_DARK, PRIMARY_LIGHT, PRODUCT_SCROLL_ITEM } from "../constants/theme";
 import { formatPrice } from "../utils/formatPrice";
 
-// Shared logo for inline Logo component
 const logoImg = LOGO_SRC;
 
+/**
+ * Clean & Fixed PagePattern Layout
+ * Isme sticky background shapes pointer-events-none layer me set hain,
+ * jisse content selection aur links completely unblocked rahenge.
+ */
 export function PagePattern({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`bg-white min-h-full ${className}`}>
-      {children}
+    <div className={`bg-white min-h-full relative overflow-x-hidden ${className}`}>
+      {/* GLOBAL LAYOUT STICKERS CONTAINER (POINTER-EVENTS-NONE) */}
+      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0" aria-hidden="true">
+        {/* Top Right Organic Accent Leaf */}
+        <div className="absolute top-[12%] -right-16 w-48 h-48 opacity-15 rotate-45 transform scale-x-[-1]">
+          <Leaf size="100%" className="text-emerald-800" strokeWidth={1} />
+        </div>
+        
+        {/* Mid-Layout Subtle Earth Core Sprout */}
+        <div className="absolute top-[42%] -left-12 w-40 h-40 opacity-10 -rotate-12">
+          <Sprout size="100%" className="text-amber-800" strokeWidth={1} />
+        </div>
+
+        {/* Lower Section Organic Wheat Pattern */}
+        <div className="absolute bottom-[28%] -right-14 w-52 h-52 opacity-15 rotate-12">
+          <Wheat size="100%" className="text-amber-700" strokeWidth={1} />
+        </div>
+
+        {/* Footer Accent Top Corner Leaf */}
+        <div className="absolute bottom-[8%] -left-16 w-44 h-44 opacity-20 rotate-45">
+          <Leaf size="100%" className="text-emerald-700" strokeWidth={0.75} />
+        </div>
+      </div>
+
+      {/* RENDER SYSTEM CONTENT OVER THE SYSTEM ASSETS */}
+      <div className="relative z-10 w-full h-full">
+        {children}
+      </div>
     </div>
   );
 }
@@ -96,7 +126,6 @@ export function ScrollToTop({ pageKey }: { pageKey: string }) {
   return null;
 }
 
-/** Mobile-only shop bar — elongated pill strip above hero on home */
 export function MobileShopBar({ activeId, onSelect }: { activeId: string | null; onSelect: (id: string) => void }) {
   return (
     <section className="lg:hidden w-full pt-2 pb-1" aria-label="Shop categories">
@@ -133,7 +162,6 @@ export function MobileShopBar({ activeId, onSelect }: { activeId: string | null;
   );
 }
 
-/** Desktop-only category strip in header row 3 */
 export function CategoryStrip({ activeId, onSelect }: { activeId: string | null; onSelect: (id: string) => void }) {
   return (
     <div className={`${CONTAINER} py-3 border-t hidden lg:block`} style={{ borderColor: G[100], background: G[50] }}>
@@ -213,7 +241,6 @@ export function NearbyStoreIcon({ size = 18, active = false }: { size?: number; 
   );
 }
 
-// ─── Flipkart-style Product Card (full-width grid) ────────────────────────────
 export function FlipkartProductCard({ product, onAddToCart, onWishlist, onView, wishlisted, large = false }: {
   product: Product;
   onAddToCart: (p: Product) => void;
@@ -246,7 +273,7 @@ export function FlipkartProductCard({ product, onAddToCart, onWishlist, onView, 
         <img
           src={product.image}
           alt={product.name}
-          className={`w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 ${large ? "" : ""}`}
+          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
         />
         <span className={`absolute top-1.5 left-1.5 font-bold px-1.5 py-0.5 rounded text-white shadow-sm ${large ? "text-[10px]" : "text-[9px]"}`} style={{ background: "#e53935" }}>{product.discount}% off</span>
         {product.inStock && (
@@ -284,7 +311,6 @@ export function FlipkartProductCard({ product, onAddToCart, onWishlist, onView, 
   );
 }
 
-// ─── Mobile horizontal scroll indicator ───────────────────────────────────────
 export function ScrollRowIndicator() {
   return (
     <div className="flex items-center justify-center gap-2 mt-2 lg:hidden" aria-hidden="true">
@@ -301,7 +327,6 @@ export function ScrollRowIndicator() {
 
 const MOBILE_CARD_SLOT = "flex-shrink-0 w-[calc(50%-0.375rem)] snap-start";
 
-// ─── Horizontal brand product strip — responsive 2-col mobile / 5-col desktop ─
 export function HorizBrandSection({ title, emoji, tagline, accent, products, onViewAll, onAddToCart, onWishlist, onView, wishlist, index = 0 }: {
   title: string;
   emoji: string;
@@ -320,7 +345,7 @@ export function HorizBrandSection({ title, emoji, tagline, accent, products, onV
   const viewAllColor = accent || PRIMARY;
 
   return (
-    <section className="py-5 sm:py-6 border-b border-gray-100 transition-colors duration-300" style={{ background: bgTint }} aria-labelledby={`brand-section-${index}`}>
+    <section className="py-5 sm:py-6 border-b border-gray-100 transition-colors duration-300 relative z-10" style={{ background: bgTint }} aria-labelledby={`brand-section-${index}`}>
       <div className={`${CONTAINER} mb-4`}>
         <div className="text-center">
           <span className="text-3xl md:text-4xl block mb-1" aria-hidden="true">{emoji}</span>
@@ -344,7 +369,6 @@ export function HorizBrandSection({ title, emoji, tagline, accent, products, onV
         </div>
       </div>
 
-      {/* Mobile: 2 cards + horizontal scroll */}
       <div className={`${CONTAINER} lg:hidden`}>
         <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1 scroll-row-mobile scroll-smooth transition-all">
           {products.map(product => (
@@ -373,7 +397,6 @@ export function HorizBrandSection({ title, emoji, tagline, accent, products, onV
         </div>
       </div>
 
-      {/* Desktop: 5-column single row — clean e-commerce cards */}
       <div className={`${CONTAINER} hidden lg:block`}>
         <div className="grid grid-cols-5 gap-3 xl:gap-4">
           {desktopProducts.map(product => (
@@ -404,80 +427,11 @@ export function HorizBrandSection({ title, emoji, tagline, accent, products, onV
   );
 }
 
-export function EventCard({ ev }: { ev: typeof HOME_EVENTS[0] }) {
-  return (
-    <article className="bg-white border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300 rounded-lg h-full flex flex-col">
-      <div className="relative h-36 sm:h-40 lg:h-44 overflow-hidden">
-        <img src={ev.image} alt={ev.title} className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" />
-        <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-white/95 rounded-full px-2.5 py-1 text-[10px] font-bold shadow-sm" style={{ color: PRIMARY }}>
-          <Calendar size={11} aria-hidden="true" /> {ev.date}
-        </div>
-      </div>
-      <div className="p-3 sm:p-4 flex flex-col flex-1">
-        <h3 className="font-semibold text-sm text-gray-800 mb-2 line-clamp-2">{ev.title}</h3>
-        <p className="text-[11px] text-gray-500 flex items-center gap-1 mb-1"><MapPin size={11} style={{ color: PRIMARY }} aria-hidden="true" />{ev.location}</p>
-        <p className="text-[11px] text-gray-500 flex items-center gap-1 mb-3"><Clock size={11} style={{ color: PRIMARY }} aria-hidden="true" />{ev.time}</p>
-        <button type="button" className="w-full py-2 text-xs font-bold rounded-full text-white mt-auto transition-opacity hover:opacity-90" style={{ background: PRIMARY }}>
-          Register Now
-        </button>
-      </div>
-    </article>
-  );
-}
-
-export function HomeEventsSection({ events, onViewAll }: { events: typeof HOME_EVENTS; onViewAll: () => void }) {
-  return (
-    <section className={`${CONTAINER} py-6`} aria-labelledby="home-events-heading">
-      <header className="relative mb-4">
-        <div className="pr-14 lg:pr-0">
-          <SectionHeading id="home-events-heading" title="Upcoming Events" subtitle="Workshops, expos & farmer meets near you" align="left" />
-        </div>
-        <button
-          onClick={onViewAll}
-          className="lg:hidden absolute top-1 right-0 text-xs font-bold inline-flex items-center gap-0.5 hover:underline transition-opacity"
-          style={{ color: PRIMARY }}
-        >
-          View All <ChevronRight size={13} />
-        </button>
-      </header>
-
-      {/* Mobile: 2 event cards + horizontal scroll */}
-      <div className="lg:hidden">
-        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1 scroll-row-mobile scroll-smooth">
-          {events.map(ev => (
-            <div key={ev.id} className={MOBILE_CARD_SLOT}>
-              <EventCard ev={ev} />
-            </div>
-          ))}
-        </div>
-        <ScrollRowIndicator />
-      </div>
-
-      {/* Desktop: 4-column grid */}
-      <div className="hidden lg:grid lg:grid-cols-4 lg:gap-4">
-        {events.slice(0, 4).map(ev => (
-          <EventCard key={ev.id} ev={ev} />
-        ))}
-      </div>
-      <div className="hidden lg:flex justify-center mt-6">
-        <button
-          onClick={onViewAll}
-          type="button"
-          className="px-8 py-3 rounded-full text-sm font-bold text-white shadow-md hover:shadow-lg hover:opacity-95 active:scale-[0.98] transition-all duration-300"
-          style={{ background: PRIMARY, fontFamily: FONT_BODY }}
-        >
-          View All Events
-        </button>
-      </div>
-    </section>
-  );
-}
-
 export function LatestNewsMarquee() {
   const loopItems = [...HOME_NEWS, ...HOME_NEWS];
 
   return (
-    <section className="py-6 sm:py-8 border-y border-gray-100 bg-gray-50 overflow-hidden" aria-labelledby="latest-news-heading">
+    <section className="py-6 sm:py-8 border-y border-gray-100 bg-gray-50 overflow-hidden relative z-10" aria-labelledby="latest-news-heading">
       <div className={`${CONTAINER} text-center mb-4 sm:mb-5`}>
         <h2
           id="latest-news-heading"
@@ -520,7 +474,7 @@ export function LatestNewsMarquee() {
 
 export function ModernServicesGrid({ services, onNavigate }: { services: typeof HOME_SERVICES; onNavigate: (p: Page) => void }) {
   return (
-    <section className="py-6 sm:py-8 border-y border-gray-100" style={{ background: "linear-gradient(180deg, #f7faf8 0%, #ffffff 100%)" }}>
+    <section className="py-6 sm:py-8 border-y border-gray-100 relative z-10" style={{ background: "linear-gradient(180deg, #f7faf8 0%, #ffffff 100%)" }}>
       <div className={CONTAINER}>
         <SectionHeading title="Our Services" subtitle="Comprehensive agricultural support — from soil to market" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
@@ -556,7 +510,6 @@ export function ModernServicesGrid({ services, onNavigate }: { services: typeof 
   );
 }
 
-// ─── Auto-scrolling testimonials ──────────────────────────────────────────────
 export function AutoScrollTestimonials({ items }: { items: typeof TESTIMONIALS }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -595,7 +548,6 @@ export function AutoScrollTestimonials({ items }: { items: typeof TESTIMONIALS }
   );
 }
 
-// ─── Grid Product Card (homepage 4-col layout) ────────────────────────────────
 export function GridProductCard({ product, onAddToCart, onWishlist, onView, wishlisted, compact = false }: {
   product: Product;
   onAddToCart: (p: Product) => void;
@@ -605,7 +557,7 @@ export function GridProductCard({ product, onAddToCart, onWishlist, onView, wish
   compact?: boolean;
 }) {
   return (
-    <div className="bg-white rounded-xl border overflow-hidden group hover:shadow-md transition-all duration-300 flex flex-col h-full" style={{ borderColor: G[100] }}>
+    <div className="bg-white rounded-xl border overflow-hidden group hover:shadow-md transition-all duration-300 flex flex-col h-full relative z-10" style={{ borderColor: G[100] }}>
       <div
         className={`relative overflow-hidden cursor-pointer bg-gray-50 ${compact ? "h-48" : "h-48 sm:h-52"}`}
         onClick={() => onView(product)}
@@ -659,12 +611,11 @@ const FEATURE_TICKER_ITEMS = [
   { icon: Headphones, label: "Expert Support", sub: "24/7 Support" },
 ] as const;
 
-/** Infinite horizontal feature ticker below the hero. */
 export function FeatureTicker() {
   const loop = [...FEATURE_TICKER_ITEMS, ...FEATURE_TICKER_ITEMS];
 
   return (
-    <section className="w-full overflow-hidden border-y bg-white" style={{ borderColor: G[100] }} aria-label="Store features">
+    <section className="w-full overflow-hidden border-y bg-white relative z-10" style={{ borderColor: G[100] }} aria-label="Store features">
       <div className="flex w-max animate-feature-marquee py-3">
         {loop.map(({ icon: Icon, label, sub }, index) => (
           <div key={`${label}-${index}`} className="flex items-center gap-8 px-8 flex-shrink-0">
@@ -685,7 +636,6 @@ export function FeatureTicker() {
   );
 }
 
-// ─── Product Section with pagination arrows ─────────────────────────────────────
 export function ProductSection({ title, products, onViewAll, onAddToCart, onWishlist, onView, wishlist }: {
   title: string;
   products: Product[];
@@ -698,14 +648,13 @@ export function ProductSection({ title, products, onViewAll, onAddToCart, onWish
   const [pageIdx, setPageIdx] = useState(0);
   const perPage = 4;
   const maxPage = Math.max(0, Math.ceil(products.length / perPage) - 1);
+  const displayedProducts = products.slice(pageIdx * perPage, (pageIdx + 1) * perPage);
 
   const prev = () => setPageIdx(p => Math.max(0, p - 1));
   const next = () => setPageIdx(p => Math.min(maxPage, p + 1));
 
-  const displayedProducts = products.slice(pageIdx * perPage, (pageIdx + 1) * perPage);
-
   return (
-    <section className={`${CONTAINER} py-6`}>
+    <section className={`${CONTAINER} py-6 relative z-10`}>
       <div className="flex items-center justify-between mb-4">
         <SectionHeading title={title} align="left" />
         <div className="flex items-center gap-2">

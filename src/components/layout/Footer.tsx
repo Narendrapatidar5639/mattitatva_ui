@@ -9,113 +9,150 @@ import {
 } from "lucide-react";
 
 import { LOGO_SRC } from "../../constants/branding";
-import { CONTAINER, FONT_BODY, FONT_DISPLAY, PRIMARY, PRIMARY_DARK } from "../../constants/theme";
+import { CONTAINER, FONT_BODY, FONT_DISPLAY, PRIMARY } from "../../constants/theme";
 
 export function Footer() {
   return (
-    <footer className="mt-8 border-t-4 w-full" style={{ borderColor: PRIMARY, background: PRIMARY_DARK, color: "#ecfdf3" }}>
-      <div className={`${CONTAINER} py-6 grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-white/10`}>
+    <footer className="mt-6 border-t-4 w-full" style={{ borderColor: PRIMARY, background: "#774936", color: "#fbf8f6" }}>
+      {/* Trust Badges Bar (Height Compressed) */}
+      <div className={`${CONTAINER} py-3.5 grid grid-cols-2 md:grid-cols-4 gap-3 border-b border-white/10`}>
         {[
           { icon: Shield, title: "100% Secure Payments", sub: "SSL encrypted checkout" },
           { icon: Award, title: "Certified Products", sub: "ISO & organic certified" },
           { icon: RotateCcw, title: "Easy Returns", sub: "7-day hassle-free policy" },
-          { icon: Headphones, title: "Farmer Helpline", sub: "1800-123-4567 (Toll Free)" },
+          { icon: Headphones, title: "Farmer Helpline", sub: "1800-123-4567" },
         ].map(({ icon: Icon, title, sub }) => (
-          <div key={title} className="flex items-start gap-2.5">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-white/10">
-              <Icon size={18} className="text-green-200" />
+          <div key={title} className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-white/10">
+              <Icon size={15} className="text-amber-100" />
             </div>
             <div>
-              <p className="text-[11px] sm:text-xs font-bold text-white">{title}</p>
-              <p className="text-[10px] text-green-200/80">{sub}</p>
+              <p className="text-[11px] font-bold text-white leading-tight">{title}</p>
+              <p className="text-[9px] text-amber-100/60 leading-none mt-0.5">{sub}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className={`${CONTAINER} py-8 md:py-10 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10 border-b border-white/10`}>
-        <div className="flex-shrink-0 text-center md:text-left">
-          <div className="inline-flex items-center justify-center p-4 md:p-5 bg-white rounded-2xl shadow-xl">
-            <img src={LOGO_SRC} alt="Matti Tatva" className="h-16 md:h-20 w-auto object-contain" />
+      {/* Main Branding Section (Merged Spacing) */}
+      <div className={`${CONTAINER} py-5 flex flex-col md:flex-row items-center md:items-center gap-4 md:gap-8 border-b border-white/10`}>
+        <div className="flex-shrink-0">
+          <div className="inline-flex items-center justify-center p-2.5 bg-white rounded-xl shadow-md">
+            <img src={LOGO_SRC} alt="Matti Tatva" className="h-12 w-auto object-contain" />
           </div>
         </div>
         <div className="text-center md:text-left flex-1">
-          <p className="text-sm md:text-base font-bold text-white tracking-wide mb-2" style={{ fontFamily: FONT_BODY }}>MATTI TATVA AGRO INDUSTRIES PVT. LTD.</p>
-          <p className="text-sm text-green-100/90 leading-relaxed mb-4" style={{ fontFamily: FONT_BODY }}>
+          <div className="flex flex-col md:flex-row md:items-center gap-2 mb-1.5">
+            <p className="text-xs md:text-sm font-bold text-white tracking-wide" style={{ fontFamily: FONT_BODY }}>MATTI TATVA AGRO INDUSTRIES PVT. LTD.</p>
+            <div className="flex justify-center gap-1.5">
+              {["ISO 9001", "Organic Certified"].map(badge => (
+                <span key={badge} className="text-[8px] font-bold px-2 py-0.5 rounded bg-white/10 text-white border border-white/10">{badge}</span>
+              ))}
+            </div>
+          </div>
+          <p className="text-xs text-amber-50/80 leading-relaxed max-w-3xl" style={{ fontFamily: FONT_BODY }}>
             Empowering Indian farmers with certified organic products, expert guidance and sustainable farming solutions since 2010.
           </p>
-          <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4">
-            {["ISO 9001", "Organic Certified", "FSSAI Licensed", "Govt. Approved"].map(badge => (
-              <span key={badge} className="text-[9px] font-bold px-2.5 py-1 rounded-full bg-white/10 text-green-50 border border-white/20">{badge}</span>
-            ))}
+        </div>
+        
+        {/* Rating and Social Icons (Aligned horizontally to save vertical space) */}
+        <div className="flex items-center gap-3 flex-shrink-0 pt-2 md:pt-0">
+          <div className="flex items-center gap-1 px-2 py-1 rounded bg-white/10 border border-white/10">
+            <Star size={11} className="fill-amber-300 text-amber-300" />
+            <span className="text-xs font-bold text-white">4.8</span>
+            <span className="text-[9px] text-amber-100/70">· 25k+ farmers</span>
           </div>
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-4">
-            {["UPI", "Visa", "Mastercard", "RuPay", "Net Banking", "COD"].map(pay => (
-              <span key={pay} className="text-[10px] font-semibold px-2.5 py-1 border border-white/20 rounded text-green-100 bg-white/5">{pay}</span>
-            ))}
-          </div>
-          <div className="flex items-center justify-center md:justify-start gap-2">
-            <div className="flex items-center gap-1 px-2 py-1 rounded bg-white/10 border border-white/15">
-              <Star size={11} className="fill-amber-300 text-amber-300" />
-              <span className="text-xs font-bold text-white">4.8</span>
-              <span className="text-[10px] text-green-100">· 25,000+ farmers</span>
-            </div>
+          <div className="flex gap-1.5">
             {[Facebook, Instagram, Linkedin].map((Icon, i) => (
-              <button key={i} className="w-9 h-9 rounded-full flex items-center justify-center bg-white/10 text-green-100 hover:bg-white/20 border border-white/15 transition-colors"><Icon size={15} /></button>
+              <button key={i} className="w-7 h-7 rounded-full flex items-center justify-center bg-white/10 text-amber-50 hover:bg-white/20 border border-white/10 transition-colors"><Icon size={13} /></button>
             ))}
           </div>
         </div>
       </div>
 
-      <div className={`${CONTAINER} py-6`}>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6">
+      {/* Links & Newsletter Grid Block (高度を抑えた構造) */}
+      <div className={`${CONTAINER} py-5`}>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 items-start">
+          
+          {/* Links Columns */}
           {[
-            { h: "Company", links: ["About Us", "Careers", "Press", "Blog", "Contact Us"] },
-            { h: "Products", links: ["Organic Fertilizers", "Seeds", "Pesticides", "Fresh Produce", "Ayurved"] },
-            { h: "Services", links: ["Soil Health Card", "Crop Health Card", "Contract Farming", "Get Franchise", "Consultancy"] },
-            { h: "Support", links: ["Track Order", "Returns & Refunds", "Shipping Info", "FAQ", "Privacy Policy"] },
+            { h: "Company", links: ["About Us", "Careers", "Blog", "Contact Us"] },
+            { h: "Products", links: ["Fertilizers", "Seeds", "Pesticides", "Ayurved"] },
+            { h: "Services", links: ["Soil Health", "Crop Health", "Franchise", "Consultancy"] },
+            { h: "Support", links: ["Track Order", "Returns", "Shipping Info", "FAQ"] },
           ].map(col => (
-            <div key={col.h}>
-              <h4 className="text-sm font-bold text-white mb-3 pb-2 border-b border-white/10" style={{ fontFamily: FONT_DISPLAY }}>{col.h}</h4>
-              <ul className="space-y-2">
+            <div key={col.h} className="col-span-1">
+              <h4 className="text-xs font-bold text-white mb-2 pb-1 border-b border-white/10" style={{ fontFamily: FONT_DISPLAY }}>{col.h}</h4>
+              <ul className="space-y-1.5">
                 {col.links.map(l => (
-                  <li key={l}><button className="text-[11px] text-green-100/80 hover:text-white transition-colors text-left">{l}</button></li>
+                  <li key={l}><button className="text-[11px] text-amber-100/70 hover:text-white transition-colors text-left leading-none">{l}</button></li>
                 ))}
               </ul>
             </div>
           ))}
 
-          <div className="col-span-2 md:col-span-4 lg:col-span-1">
-            <h4 className="text-sm font-bold text-white mb-3 pb-2 border-b border-white/10 flex items-center gap-1.5" style={{ fontFamily: FONT_DISPLAY }}><Smartphone size={14} /> Download App</h4>
-            <div className="space-y-2 mb-4">
-              <button className="w-full flex items-center gap-2 bg-black/30 hover:bg-black/40 rounded-lg border border-white/15 px-3 py-2.5 transition-colors">
-                <div className="text-left">
-                  <p className="text-[8px] text-green-200/60 leading-none">GET IT ON</p>
-                  <p className="text-[11px] font-bold text-white">Google Play</p>
-                </div>
-              </button>
-              <button className="w-full flex items-center gap-2 bg-black/30 hover:bg-black/40 rounded-lg border border-white/15 px-3 py-2.5 transition-colors">
-                <div className="text-left">
-                  <p className="text-[8px] text-green-200/60 leading-none">Download on the</p>
-                  <p className="text-[11px] font-bold text-white">App Store</p>
-                </div>
-              </button>
+          {/* Right Side Compressed Box (Newsletter + App Compact Layout) */}
+          <div className="col-span-2 md:col-span-4 lg:col-span-1 flex flex-col sm:flex-row lg:flex-col gap-3">
+            
+            {/* Newsletter Box */}
+            <div className="p-3 rounded-xl border border-white/10 bg-white/5 flex-1">
+              <h4 className="text-xs font-bold text-white mb-0.5" style={{ fontFamily: FONT_DISPLAY }}>Newsletter</h4>
+              <p className="text-[9px] text-amber-100/60 mb-2 leading-none">Farming tips & seasonal offers.</p>
+              <div className="flex gap-1.5">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  className="flex-1 text-[11px] px-2.5 py-1.5 rounded bg-white/10 text-white placeholder:text-amber-100/40 border border-white/10 outline-none focus:border-white/20"
+                />
+                <button
+                  type="button"
+                  className="px-2.5 py-1.5 text-[10px] font-bold rounded text-white hover:opacity-90 transition-opacity whitespace-nowrap"
+                  style={{ background: PRIMARY }}
+                >
+                  Join
+                </button>
+              </div>
             </div>
-            <div className="p-3 rounded-lg border border-white/20 bg-white/5">
-              <p className="text-[10px] font-bold text-green-100 flex items-center gap-1"><Phone size={11} /> Customer Care</p>
-              <p className="text-base font-bold mt-1 text-white" style={{ fontFamily: FONT_DISPLAY }}>1800-123-4567</p>
-              <p className="text-[9px] text-green-200/70">Mon–Sat, 8 AM – 8 PM</p>
+
+            {/* App Downloads & Call Support Component */}
+            <div className="flex-1 flex flex-col justify-between gap-2">
+              <div className="flex items-center justify-between gap-1.5 p-2 rounded-lg border border-white/10 bg-white/5">
+                <div className="flex items-center gap-1 text-[10px] text-white font-medium">
+                  <Smartphone size={12} className="text-amber-100" />
+                  <span>Our App:</span>
+                </div>
+                <div className="flex gap-1">
+                  <button className="text-[9px] font-bold bg-black/20 hover:bg-black/30 border border-white/10 px-1.5 py-0.5 rounded text-white">Play</button>
+                  <button className="text-[9px] font-bold bg-black/20 hover:bg-black/30 border border-white/10 px-1.5 py-0.5 rounded text-white">iOS</button>
+                </div>
+              </div>
+
+              <div className="px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/5 flex items-center justify-between gap-2">
+                <p className="text-[9px] font-bold text-amber-50 flex items-center gap-1"><Phone size={10} /> Call Support</p>
+                <p className="text-xs font-black text-white" style={{ fontFamily: FONT_DISPLAY }}>1800-123-4567</p>
+              </div>
             </div>
+
           </div>
         </div>
 
-        <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-[10px] text-green-100/80">© 2024 Matti Tatva Agro Industries Pvt. Ltd. All rights reserved.</p>
-          <div className="flex gap-4 text-[10px] text-green-100/80">
+        {/* Dynamic Payment Gateways Block */}
+        <div className="mt-4 pt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap gap-1.5">
+            {["UPI", "Visa", "Mastercard", "RuPay", "COD"].map(pay => (
+              <span key={pay} className="text-[9px] font-medium px-2 py-0.5 border border-white/10 rounded text-amber-100 bg-white/5">{pay}</span>
+            ))}
+          </div>
+          <div className="flex gap-3 text-[9px] text-amber-100/60">
             {["Privacy Policy", "Terms of Service", "Cookie Policy"].map(l => (
               <button key={l} className="hover:text-white transition-colors">{l}</button>
             ))}
           </div>
+        </div>
+
+        {/* Copyright Footer Sub-Line */}
+        <div className="pt-2 mt-2 border-t border-white/5 text-center sm:text-left">
+          <p className="text-[9px] text-amber-100/40">© 2026 Matti Tatva Agro Industries Pvt. Ltd. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -9,14 +9,13 @@ import {
 } from "lucide-react";
 import type { Page, Product, CartItem } from "../types";
 import { CONTAINER, FONT_BODY, FONT_DISPLAY, FONT_LABEL, G, PAGE_BG, PRIMARY, PRIMARY_DARK, PRIMARY_LIGHT } from "../constants/theme";
-import { ALL_PRODUCTS, BRAND_CATEGORIES, EVENTS, HOME_EVENTS, HOME_NEWS, HOME_SERVICES, NEARBY_SHOPS, SERVICE_FORMS, TESTIMONIALS, TRUST_METRICS } from "../data/appData";
+import { ALL_PRODUCTS, BRAND_CATEGORIES, EVENTS, HOME_NEWS, HOME_SERVICES, NEARBY_SHOPS, SERVICE_FORMS, TESTIMONIALS, TRUST_METRICS } from "../data/appData";
 import { formatPrice } from "../utils/formatPrice";
 import {
   AutoScrollTestimonials,
   FlipkartProductCard,
   GridProductCard,
   HeroCarousel,
-  HomeEventsSection,
   LatestNewsMarquee,
   MobileShopBar,
   ModernServicesGrid,

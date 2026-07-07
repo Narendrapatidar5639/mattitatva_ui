@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { loadAdminSession } from "../../auth/unifiedAuth";
 
 interface AdminAuthContextType {
   session: boolean; // Ab ye object nahi, sirf true/false hoga
@@ -13,8 +14,8 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
-    // Sirf ek simple check: Kya browser me admin ka thappa (flag) laga hua hai?
-    const isAdmin = localStorage.getItem("is_maati_admin") === "true";
+    const isAdmin =
+      localStorage.getItem("is_maati_admin") === "true" || !!loadAdminSession();
     setSession(isAdmin);
     setAuthReady(true);
   }, []);

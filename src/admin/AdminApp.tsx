@@ -1,78 +1,60 @@
-import { useLayoutEffect, useRef } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { AdminAuthProvider,  useAdminAuth } from "./context/AdminAuthContext";
+import { Navigate, Outlet, Route, Routes } from "react-router";
+import { AdminAuthProvider, useAdminAuth } from "./context/AdminAuthContext";
 import { AdminLayout } from "./components/AdminLayout";
 import { AdminDashboard } from "./AdminDashboard";
 import { ProductUpload } from "./ProductUpload";
 import { OrderManagement } from "./OrderManagement";
 import { Shipping } from "./Shipping";
 import { ADMIN_CHILD_PATHS, ADMIN_ROUTES } from "./routes";
+import { STORE_ROUTES } from "../routes/storefrontRoutes";
 
-function StorefrontLoginRedirect() {
-  const redirected = useRef(false);
-
-  useLayoutEffect(() => {
-    if (redirected.current) return;
-    redirected.current = true;
-    window.location.replace("/login");
-  }, []);
-
-  return <div className="min-h-screen bg-gray-50" aria-hidden="true" />;
-}
-
-// File: AdminApp.tsx me sirf ye ProtectedShell badal lijiye
-function ProtectedShell() {
+function AdminGate() {
   const { session, authReady } = useAdminAuth();
 
   if (!authReady) {
-    return <div className="min-h-screen bg-gray-50" />;
-  }
-
-  // Agar session true nahi hai (yaani admin nahi hai), toh seedhe storefront login bhejo
-  if (!session) {
-    window.location.replace("/login");
-    return null;
-  }
-
-  return <AdminLayout />;
-}
-
-function AdminFallback() {
-  const { session, authReady } = useAdminAuth();
-
-  if (!authReady) {
-    return <div className="min-h-screen bg-gray-50" aria-hidden="true" />;
+    return <div className="min-h-screen bg-gray-50" aria-busy="true" />;
   }
 
   if (!session) {
-    return <StorefrontLoginRedirect />;
+    return <Navigate to={STORE_ROUTES.login} replace />;
   }
 
-  return <Navigate to={ADMIN_ROUTES.dashboard} replace />;
+  return <Outlet />;
 }
 
-export function AdminApp() {
-  // KOI CONTEXT NHI, KOI IF-ELSE CHECK NHI, DIRECT DASHBOARD LOAD HOGA
+/** Auth wrapper used by the unified root router (`RootRoutes`). */
+export function AdminRouteBranch() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Base Admin Layout */}
-        <Route path={ADMIN_ROUTES.root} element={<AdminLayout />}>
-          {/* Automatically redirect /admin to /admin/dashboard */}
-          <Route index element={<Navigate to={ADMIN_ROUTES.dashboard} replace />} />
-          
-          {/* All Child Pages */}
+    <AdminAuthProvider>
+      <AdminGate />
+    </AdminAuthProvider>
+  );
+}
+
+/**
+ * Standalone admin route tree (no BrowserRouter).
+ * Prefer mounting via `RootRoutes` in main.tsx.
+ */
+export function AdminRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<AdminRouteBranch />}>
+        <Route element={<AdminLayout />}>
+          <Route index element={<Navigate to={ADMIN_CHILD_PATHS.dashboard} replace />} />
           <Route path={ADMIN_CHILD_PATHS.dashboard} element={<AdminDashboard />} />
           <Route path={ADMIN_CHILD_PATHS.products} element={<ProductUpload />} />
           <Route path={ADMIN_CHILD_PATHS.orders} element={<OrderManagement />} />
           <Route path={ADMIN_CHILD_PATHS.shipping} element={<Shipping />} />
         </Route>
-
-        {/* Catch-all route: Agar koi galat URL dale toh direct dashboard par bhejo */}
-        <Route path="*" element={<Navigate to={ADMIN_ROUTES.dashboard} replace />} />
-      </Routes>
-    </BrowserRouter>
+      </Route>
+      <Route path="*" element={<Navigate to={`${ADMIN_ROUTES.root}/${ADMIN_CHILD_PATHS.dashboard}`} replace />} />
+    </Routes>
   );
+}
+
+/** @deprecated Use RootRoutes — kept for legacy imports. */
+export function AdminApp() {
+  return <AdminRoutes />;
 }
 
 export default AdminApp;

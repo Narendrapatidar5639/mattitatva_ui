@@ -211,7 +211,7 @@ export const BRAND_CATEGORIES = [
 
 export const ALL_PRODUCTS: Product[] = BRAND_CATEGORIES.flatMap(b => b.products);
 
-export const HOME_EVENTS = [
+export const EVENTS = [
   { id: 1, title: "Organic Farming Workshop", date: "22 Dec 2024", time: "10:00 AM – 4:00 PM", location: "Pune, Maharashtra", image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&h=400&fit=crop&auto=format", desc: "Hands-on workshop on organic certification and sustainable practices." },
   { id: 2, title: "Soil Health Management Seminar", date: "5 Jan 2025", time: "9:00 AM – 1:00 PM", location: "Nagpur, Maharashtra", image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600&h=400&fit=crop&auto=format", desc: "Expert panel on NPK analysis, pH balance and soil improvement." },
   { id: 3, title: "Smart Farming Exhibition 2025", date: "2 Feb 2025", time: "11:00 AM – 6:00 PM", location: "Mumbai, Maharashtra", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop&auto=format", desc: "Latest agri-tech showcase, machinery demos and expert consultations." },
@@ -225,12 +225,6 @@ export const HOME_NEWS = [
   { id: 4, title: "Franchise Opportunities Expanded to 12 New Cities", date: "28 May 2024", image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&h=500&fit=crop&auto=format", excerpt: "Join India's fastest-growing agro retail network today." },
   { id: 5, title: "Ayurved Crop Care Series Wins National Innovation Award", date: "20 May 2024", image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&h=500&fit=crop&auto=format", excerpt: "Herbal plant protection recognised for sustainable farming impact." },
   { id: 6, title: "Monsoon Preparedness Guide Released for Farmers", date: "15 May 2024", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=500&fit=crop&auto=format", excerpt: "Expert tips on seed selection, soil prep and crop planning." },
-];
-
-export const EVENTS = [
-  { id: 1, title: "Kisan Mela 2024", date: "15 Dec 2024", location: "Nashik, Maharashtra", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop&auto=format", desc: "Annual farmer fair with live demos of latest agri technologies." },
-  { id: 2, title: "Organic Farming Workshop", date: "22 Dec 2024", location: "Pune, Maharashtra", image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&h=400&fit=crop&auto=format", desc: "Hands-on workshop on organic certification and practices." },
-  { id: 3, title: "Soil Health Summit", date: "5 Jan 2025", location: "Nagpur, Maharashtra", image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600&h=400&fit=crop&auto=format", desc: "Expert panel on sustainable soil management." },
 ];
 
 export const TESTIMONIALS = [

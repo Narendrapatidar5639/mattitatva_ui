@@ -23,7 +23,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     setError(null);
     try {
-      const items = await fetchProducts();
+      const items = await fetchProducts({ inStockOnly: true });
       setApiProducts(items);
     } catch (err) {
       setApiProducts([]);

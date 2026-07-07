@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate, useParams } from "react-router";
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from "react-router";
 import { CheckCircle } from "lucide-react";
 import type { CartItem, Page, Product } from "../types";
 import { isUserAuthenticated, persistUserAuth } from "../auth/unifiedAuth";
@@ -18,7 +18,6 @@ import { CheckoutPage } from "../pages/Checkout";
 import { AccountPage } from "../pages/Account";
 import { ServicesPage } from "../pages/Services";
 import ServiceFormPage from "../pages/ServiceForm";
-import { EventsPage } from "../pages/Events";
 import { AboutPage } from "../pages/About";
 import { Contact as ContactPage } from "../pages/Contact";
 import { NearbyShopPage } from "../pages/NearbyShop";
@@ -36,11 +35,13 @@ type PendingAuthAction = { type: "cart" | "purchase"; product: Product };
 
 function ProductDetailRoute(props: Record<string, unknown>) {
   const { productId } = useParams();
-  const { products } = useProducts();
   const id = Number(productId);
-  const product = products.find(p => p.id === id);
-  if (!product) return <Navigate to={STORE_ROUTES.products} replace />;
-  return <ProductDetailPage {...props} selectedProduct={product} />;
+
+  if (!productId || Number.isNaN(id)) {
+    return <Navigate to={STORE_ROUTES.products} replace />;
+  }
+
+  return <ProductDetailPage {...props} productId={id} />;
 }
 
 function AuthRouteShell() {
@@ -304,7 +305,7 @@ useEffect(() => {
               return <ServiceFormComponent {...appProps} slug="contract-farming" />;
             })()}
           />
-          <Route path={STORE_ROUTES.events} element={<EventsPage {...appProps} />} />
+          <Route path={STORE_ROUTES.events} element={<Navigate to={STORE_ROUTES.home} replace />} />
           <Route path={STORE_ROUTES.about} element={<AboutPage {...appProps} />} />
           <Route path={STORE_ROUTES.contact} element={<ContactPage />} />
           <Route path={STORE_ROUTES.nearby} element={<NearbyShopPage {...appProps} />} />
@@ -355,9 +356,7 @@ export default function App() {
 
   return (
     <ProductsProvider>
-      <BrowserRouter>
-        <StorefrontApp />
-      </BrowserRouter>
+      <StorefrontApp />
     </ProductsProvider>
   );
 }

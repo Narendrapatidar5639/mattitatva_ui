@@ -1,4 +1,4 @@
-export { AdminApp, default as default } from "./AdminApp";
+export { AdminApp, AdminRouteBranch, AdminRoutes, default as default } from "./AdminApp";
 export { redirectLegacyAdminHash, isAdminPathname, resolveRootElement } from "./bootstrap";
 export { AdminDashboard } from "./AdminDashboard";
 export { ProductUpload } from "./ProductUpload";

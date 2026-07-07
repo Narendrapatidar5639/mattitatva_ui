@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircle, FileText, MapPin, Droplets } from "lucide-react";
+import { CheckCircle, FileText, MapPin, Droplets, X } from "lucide-react";
 
 interface ServiceFormProps {
   activeFormService: { title: string; price: string };
@@ -10,7 +10,8 @@ interface ServiceFormProps {
   handleSubmit: (e: React.FormEvent) => void;
   isSubmitting: boolean;
   submitSuccess: boolean;
-  isMobileInline?: boolean; // New prop to identify view states
+  isMobileInline?: boolean; // Identify view states
+  onClose?: () => void;      // क्लोज बटन को हैंडल करने के लिए प्रोप
 }
 
 const G = {
@@ -28,9 +29,10 @@ export default function ServiceForm({
   isSubmitting,
   submitSuccess,
   isMobileInline = false,
+  onClose, // प्रोप से क्लोज फंक्शन को डिस्ट्रक्चर किया
 }: ServiceFormProps) {
   
-  // 1. SAFETY GUARD: If activeFormService isn't passed or populated yet, return a safe fallback instead of crashing
+  // 1. SAFETY GUARD: If activeFormService isn't passed or populated yet
   if (!activeFormService || !activeFormService.title) {
     return (
       <div className="w-full bg-white rounded-2xl border p-8 text-center text-gray-500 my-4" style={{ borderColor: G[200] }}>
@@ -40,7 +42,6 @@ export default function ServiceForm({
     );
   }
 
-  // 2. Safe execution: The guard above guarantees .title exists now
   const serviceDetails = resolveServiceDetails(activeFormService.title);
 
   return (
@@ -76,9 +77,25 @@ export default function ServiceForm({
 
       {/* Right Column: Advanced Intake Dossier Form Fields */}
       <div className="md:col-span-8 flex flex-col justify-between max-h-[85vh] md:max-h-[90vh] overflow-y-auto">
-        <div className="bg-[#1e466e] text-white py-4 px-6 flex items-center space-x-2">
-          <FileText className="w-4 h-4 text-blue-200" />
-          <h4 className="font-bold text-xs tracking-wide uppercase">Farm Consultancy Intake Dossier</h4>
+        
+        {/* सुधरा हुआ हेडर पट्टी: इसमें अब क्लोज बटन भी शामिल है जो नॅवबार से अलग फॉर्म के अंदर ही रहेगा */}
+        <div className="bg-[#1e466e] text-white py-4 px-6 flex items-center justify-between sticky top-0 z-20">
+          <div className="flex items-center space-x-2">
+            <FileText className="w-4 h-4 text-blue-200" />
+            <h4 className="font-bold text-xs tracking-wide uppercase">Farm Consultancy Intake Dossier</h4>
+          </div>
+          
+          {/* क्लोज बटन केवल तभी दिखेगा जब यह स्वतंत्र रूप से पॉपअप हो, न कि इनलाइन मोबाइल लिस्ट में */}
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-1 bg-white/10 hover:bg-red-600 rounded-full transition-colors text-white cursor-pointer"
+              aria-label="Close form"
+            >
+              <X size={16} strokeWidth={2.5} />
+            </button>
+          )}
         </div>
 
         {submitSuccess ? (

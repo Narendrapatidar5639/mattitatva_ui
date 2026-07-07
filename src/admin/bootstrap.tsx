@@ -1,6 +1,5 @@
 import type { ReactElement } from "react";
-import App from "../app/App";
-import { AdminApp } from "./AdminApp";
+import { RootRoutes } from "../RootRoutes";
 
 /**
  * Redirect legacy hash admin URLs (/#/admin/...) to pathname routes (/admin/...).
@@ -19,7 +18,7 @@ export function isAdminPathname(): boolean {
   return window.location.pathname.startsWith("/admin");
 }
 
-/** Choose storefront or admin tree without altering storefront page routing. */
+/** Legacy helper — routing is unified in RootRoutes (main.tsx). */
 export function resolveRootElement(): ReactElement {
-  return isAdminPathname() ? <AdminApp /> : <App />;
+  return <RootRoutes />;
 }

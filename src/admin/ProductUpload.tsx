@@ -1,7 +1,7 @@
 import { useCallback, useState, type ChangeEvent, type FormEvent } from "react";
 import { ImagePlus, Save, Trash2, Upload } from "lucide-react";
 import { FONT_LABEL, G, PRIMARY, PRIMARY_LIGHT } from "../constants/theme";
-import { uploadProductApi } from "../services/productsApi";
+import { uploadProductApi } from "./services/productsApi";
 import { ADMIN_CATEGORIES, adminFieldClass, AdminCard, AdminPageHeader, CLAY_MATERIALS } from "./components/ui";
 import type { AdminProductDraft } from "./types";
 
@@ -77,8 +77,7 @@ export function ProductUpload() {
   setSubmitting(true);
   setSubmitError(null);
   try {
-    // 🎯 'as any' लगाने से TypeScript की टाइप चेकिंग एरर तुरंत ख़त्म हो जाएगी
-    await (uploadProductApi as any)(
+    await uploadProductApi(
       {
         ...draft,
         name: draft.name.trim(),

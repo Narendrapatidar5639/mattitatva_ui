@@ -108,7 +108,7 @@ export function AuthPage({ onAuthSuccess, onClose, initialMode = "login" }: Auth
   localStorage.setItem("matti_token", token);
   
   if (userData.is_staff === true || userData.is_superuser === true) {
-    // Hard redirect directly to the admin dashboard panel
+    localStorage.setItem("is_maati_admin", "true");
     window.location.href = "/admin/dashboard";
   } else {
     // Normal user logic
