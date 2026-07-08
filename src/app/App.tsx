@@ -21,6 +21,7 @@ import ServiceFormPage from "../pages/ServiceForm";
 import { AboutPage } from "../pages/About";
 import { Contact as ContactPage } from "../pages/Contact";
 import { NearbyShopPage } from "../pages/NearbyShop";
+import { ShopDetailPage } from "../pages/ShopDetailPage"; // <-- 1. नया पेज इम्पोर्ट किया
 import { GetFranchisePage } from "../pages/GetFranchise";
 import {
   authModeFromPath,
@@ -42,6 +43,11 @@ function ProductDetailRoute(props: Record<string, unknown>) {
   }
 
   return <ProductDetailPage {...props} productId={id} />;
+}
+
+// 2. शॉप डिटेल्स के लिए डायनेमिक रूट रैपर ताकि URL से ID निकाली जा सके
+function ShopDetailRoute() {
+  return <ShopDetailPage />;
 }
 
 function AuthRouteShell() {
@@ -169,16 +175,14 @@ function StorefrontApp() {
       routerNavigate(STORE_ROUTES.home, { replace: true });
     }
   }, [authReady, isAuthenticated, location.pathname, routerNavigate]);
-// File: App.tsx
-useEffect(() => {
-  if (!authReady) return;
-  
-  // Strict condition: Only redirect to home if user is explicitly authenticated 
-  // AND they are trying to manually type /login or /signup in the address bar.
-  if (isAuthenticated && isAuthPath(location.pathname)) {
-    routerNavigate(STORE_ROUTES.home, { replace: true });
-  }
-}, [authReady, isAuthenticated, location.pathname, routerNavigate]);
+
+  useEffect(() => {
+    if (!authReady) return;
+    if (isAuthenticated && isAuthPath(location.pathname)) {
+      routerNavigate(STORE_ROUTES.home, { replace: true });
+    }
+  }, [authReady, isAuthenticated, location.pathname, routerNavigate]);
+
   useEffect(() => {
     if (location.pathname === STORE_ROUTES.orders) setActiveTab("orders");
     else if (location.pathname === STORE_ROUTES.wishlist) setActiveTab("wishlist");
@@ -309,6 +313,10 @@ useEffect(() => {
           <Route path={STORE_ROUTES.about} element={<AboutPage {...appProps} />} />
           <Route path={STORE_ROUTES.contact} element={<ContactPage />} />
           <Route path={STORE_ROUTES.nearby} element={<NearbyShopPage {...appProps} />} />
+          
+          {/* 3. यहाँ नया शॉप डिटेल का डायनेमिक रूट एड किया */}
+          <Route path="/nearby/:shopId" element={<ShopDetailRoute />} />
+          
           <Route path={STORE_ROUTES.login} element={<AuthRouteShell />} />
           <Route path={STORE_ROUTES.signup} element={<AuthRouteShell />} />
           <Route path="*" element={<Navigate to={STORE_ROUTES.home} replace />} />

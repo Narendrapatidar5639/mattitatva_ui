@@ -238,8 +238,8 @@ export const TESTIMONIALS = [
 ];
 
 export const NEARBY_SHOPS = [
-  { name: "Matti Tatva Nashik Hub", address: "Plot 12, MIDC, Nashik – 422010", dist: "0.8 km", phone: "+91 98765 43210", open: true },
-  { name: "Agri Point Deolali", address: "Near Bus Stand, Deolali Camp", dist: "4.2 km", phone: "+91 87654 32109", open: true },
-  { name: "Green Agro Igatpuri", address: "Main Bazar Road, Igatpuri", dist: "7.6 km", phone: "+91 76543 21098", open: false },
-  { name: "Kisan Store Sinnar", address: "Sinnar Phata, Nashik-Pune Highway", dist: "12.1 km", phone: "+91 65432 10987", open: true },
+  { id: "nashik-hub", name: "Matti Tatva Nashik Hub", address: "Plot 12, MIDC, Nashik – 422010", dist: "0.8 km", phone: "+91 98765 43210", open: true },
+  { id: "deolali", name: "Agri Point Deolali", address: "Near Bus Stand, Deolali Camp", dist: "4.2 km", phone: "+91 87654 32109", open: true },
+  { id: "igatpuri", name: "Green Agro Igatpuri", address: "Main Bazar Road, Igatpuri", dist: "7.6 km", phone: "+91 76543 21098", open: false },
+  { id: "sinnar", name: "Kisan Store Sinnar", address: "Sinnar Phata, Nashik-Pune Highway", dist: "12.1 km", phone: "+91 65432 10987", open: true },
 ];

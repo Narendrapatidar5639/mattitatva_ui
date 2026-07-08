@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { ArrowRight, X, Sprout, ShieldCheck, Activity, Check } from "lucide-react";
 import ServiceForm from "./ServiceForm"; // Importing the newly separated Form file
+
+// Image mapping from your local folder (src/imports/)
+import soilHealthImg from "../imports/soilcard.png";
+import cropHealthImg from "../imports/Gemini_Generated_Image_qrhit0qrhit0qrhi.png";
+import franchiseImg from "../imports/Gemini_Generated_Image_c4ohgjc4ohgjc4oh.png";
+import nearStoreImg from "../imports/Gemini_Generated_Image_s4uejds4uejds4ue.png";
 
 const G = {
   950: "#030712"
@@ -13,60 +20,51 @@ interface RichServiceDetails {
   image: string;
 }
 
-// Updated Directory Data with new requirements (Irrigation removed)
+// Updated Directory Data with new requirements and mapping to physical images
 const SERVICE_DATA_DIRECTORY: Record<string, RichServiceDetails> = {
-  "organic farming advisory": {
-    description: "Organic farming is a sustainable agricultural method that avoids synthetic fertilizers, harmful pesticides, and genetically modified seeds. It focuses deeply on natural organic inputs like compost, green manures, bio-fertilizers, and eco-friendly biological pest control systems to maintain long-term soil health, biological diversity, and sustainable field productivity.",
-    image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1200",
+  "soil health card": {
+    description: "The Soil Health Card is your comprehensive guide to scientific agriculture. It evaluates 12 crucial parameters including macro-nutrients (NPK), secondary nutrients, micro-nutrients, and physical parameters like pH and Organic Carbon to determine exactly what your land needs.",
+    image: soilHealthImg,
     benefits: [
-      { title: "Higher Market Value", desc: "Certified organic grains, vegetables, and fruits fetch premium rates up to 40% higher in trade hubs." },
-      { title: "Low Input Cost", desc: "Systematically replaces expensive imported chemical compounds with localized organic formulations." },
-      { title: "Long-Term Soil Fertility", desc: "Nurtures the underground microbial ecosystem, restoring soil structure for future generations." }
+      { title: "Precise Dosage", desc: "Eliminates guess-work, providing exact fertilizer recommendations customized per crop." },
+      { title: "Reduce Overhead Costs", desc: "Reduces unnecessary expenditures on chemical applications by up to 25-30%." },
+      { title: "Long-term Crop Vitality", desc: "Ensures structural baseline fertility preservation for consistent annual yield." }
     ]
   },
-  "soil testing & nutrition": {
-    description: "Soil health analysis is the foundational step of modern precision agriculture. Our scientific soil testing program maps the presence of essential macro-nutrients (NPK), micro-nutrients, organic carbon percentage, and soil pH levels across your farmland to eliminate chemical overuse.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200",
+  "crop health card": {
+    description: "Our innovative Crop Health Card actively tracks your crops' development over vital growth cycles. By monitoring vegetative index metrics, moisture stress, and early pest indicators, it acts as a dynamic medical record optimizing nutritional inputs.",
+    image: cropHealthImg,
     benefits: [
-      { title: "Optimized Fertilizer Budget", desc: "Saves up to 30% on unnecessary chemical purchases by identifying exact deficiencies." },
-      { title: "Maximum Crop Yield Potential", desc: "Ensures plants receive a balanced diet during critical vegetative and flowering phases." },
-      { title: "Prevent Acidification", desc: "Regular testing warns against rising salinity and pH imbalances before permanent damage occurs." }
-    ]
-  },
-  "precision drone spraying": {
-    description: "Smart drone spraying leverages advanced aerial automation to apply liquid crop protectors, micro-nutrients, and bio-pesticides with unparalleled precision. Traditional hand-spraying methods suffer from uneven distribution whereas multi-rotor drones utilize fine-atomization nozzles.",
-    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1200",
-    benefits: [
-      { title: "90% Water Conservation", desc: "Uses highly concentrated ultra-low-volume spray technology, saving thousands of liters per acre." },
-      { title: "Rapid Field Coverage", desc: "Completes an entire acre of spraying in less than 8 minutes, avoiding sudden pest infestations." },
-      { title: "Zero Operator Health Hazard", desc: "Completely eliminates physical human contact with toxic chemical mist, ensuring total safety." }
-    ]
-  },
-  "integrated pest management": {
-    description: "Integrated Pest Management (IPM) is an environmentally sensitive approach to crop protection that combines biological, cultural, and mechanical controls. Rather than continuously blanket-spraying chemicals, our experts map pest life cycles to deploy pheromone traps.",
-    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c3aa?auto=format&fit=crop&q=80&w=1200",
-    benefits: [
-      { title: "Residue-Free Crops", desc: "Produces high-quality harvests with zero chemical residues, satisfying strict compliance norms." },
-      { title: "Prevents Pest Resistance", desc: "Multi-layered biological and mechanical disruptions prevent pests from developing immunity." },
-      { title: "Preserves Natural Predators", desc: "Keeps beneficial bugs, honeybees, and soil microbes alive to naturally suppress breakouts." }
+      { title: "Early Warning System", desc: "Identify invisible pest incursions or micro-nutrient deficits days before physical expression." },
+      { title: "Optimized Quality Control", desc: "Achieve consistent grade-A quality fruits, grains, or vegetables for export premium values." },
+      { title: "Maximized Biomass Potential", desc: "Ensures leaves retain maximum chlorophyll potential for ultimate productivity." }
     ]
   },
   "get franchise": {
     description: "Join Maatitatva's growing network and establish a premier AgTech enablement center in your territory. Our franchise model empowers local entrepreneurs with advanced agricultural testing tools, supply chains, corporate marketing systems, and certified training pathways to build a highly profitable localized enterprise.",
-    image: "https://images.unsplash.com/photo-1605000797499-95a58c0369ac?auto=format&fit=crop&q=80&w=1200",
+    image: franchiseImg,
     benefits: [
       { title: "Established Brand Value", desc: "Instantly deploy Maatitatva's identity and trusted operational agronomy guidelines locally." },
-      { title: "End-to-End AgTech Inventory", desc: "Direct access to precision instruments, high-grade organic formulations, and specialized drones." },
+      { title: "End-to-End AgTech Inventory", desc: "Direct access to precision instruments, high-grade organic formulations, and specialized tools." },
       { title: "Continuous Technical Support", desc: "Get real-time advisory pipelines backed directly by our chief agricultural scientists." }
     ]
   },
-  "near by store": {
+  "near store": {
     description: "Locate and connect directly with your nearest authorized Maatitatva retail outlet. Every brick-and-mortar hub is packed with modern analytical testing setups, verified biological seed treatments, organic inputs, and on-site expert consult desks built to provide answers immediately.",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1200",
+    image: nearStoreImg,
     benefits: [
       { title: "Instant Soil & Input Sourcing", desc: "Walk in to collect physical formulations or drop samples directly for priority processing." },
       { title: "Localized Agronomist Access", desc: "Book immediate sit-down diagnostic reviews tailored precisely to your pin-code ecosystem." },
-      { title: "Live Product Demonstrations", desc: "See new precision spray setups and test results running live before choosing layouts." }
+      { title: "Live Product Demonstrations", desc: "See new precision setups and test results running live before choosing layouts." }
+    ]
+  },
+  "farming consultancy": {
+    description: "Our professional Farming Consultancy service bridges the gap between field challenges and verified botanical solutions. Access regular physical or digital farm visits by designated agronomists detailing weed controls, moisture preservation setups, and regenerative schedules.",
+    image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1200", // Fallback standard image
+    benefits: [
+      { title: "Customized Action Plan", desc: "Receive customized, step-by-step guidance calculated explicitly for your specific crop choice." },
+      { title: "Biological Pest Controls", desc: "Implements integrated systems to safely prevent breakouts without leaving toxic residue." },
+      { title: "Climate Resilience", desc: "Transition your land seamlessly to handle heat stresses and shifting monsoon patterns." }
     ]
   }
 };
@@ -77,13 +75,13 @@ interface ServiceItem {
   price: string;
 }
 
+// Fixed Ordered list layout to follow your precise requirements
 const DEFAULT_HOME_SERVICES = [
-  { id: "1", title: "Organic Farming Advisory", price: "₹ 1,500.00" },
-  { id: "2", title: "Soil Testing & Nutrition", price: "₹ 1,200.00" },
-  { id: "3", title: "Precision Drone Spraying", price: "₹ 2,400.00" },
-  { id: "4", title: "Integrated Pest Management", price: "₹ 1,800.00" },
-  { id: "5", title: "Get Franchise", price: "₹ 15,000.00" },
-  { id: "6", title: "Near By Store", price: "₹ 0.00" }
+  { id: "1", title: "Soil Health Card", price: "₹ 500.00" },
+  { id: "2", title: "Crop Health Card", price: "₹ 750.00" },
+  { id: "3", title: "Get Franchise", price: "₹ 15,000.00" },
+  { id: "4", title: "Near Store", price: "₹ 0.00" },
+  { id: "5", title: "Farming Consultancy", price: "₹ 1,500.00" }
 ];
 
 export default function App() {
@@ -95,6 +93,7 @@ export default function App() {
 }
 
 export function ServicesPage(props: { services?: ServiceItem[] }) {
+  const navigate = useNavigate();
   const servicesList: ServiceItem[] = props.services || DEFAULT_HOME_SERVICES;
   const [activeFormService, setActiveFormService] = useState<ServiceItem | null>(null);
   
@@ -173,7 +172,6 @@ export function ServicesPage(props: { services?: ServiceItem[] }) {
   };
 
   return (
-    /* Changed max-w width classes to max-w-none to allow full edge-to-edge layouts */
     <div className="w-full max-w-none py-12 px-4 sm:px-8 md:px-12 mx-auto">
       {/* Header Banner */}
       <div className="text-center mb-12">
@@ -212,11 +210,12 @@ export function ServicesPage(props: { services?: ServiceItem[] }) {
         </div>
       </div>
 
-      {/* Services Grid Content layout (Stretched to Full Screen Width) */}
+      {/* Services Grid Content layout */}
       <div className="space-y-12 w-full">
         {servicesList.map((s, index: number) => {
           const isImageLeft = index % 2 === 0;
           const richDetails = resolveServiceDetails(s.title);
+          const isNearStore = s.title.toLowerCase().includes("near store");
 
           return (
             <div key={s.id} className="space-y-6 w-full">
@@ -280,19 +279,27 @@ export function ServicesPage(props: { services?: ServiceItem[] }) {
 
                   {/* Price and CTA Block */}
                   <div className="border-t border-gray-100 pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Session Fee:</span>
-                      <span className="text-xl font-bold text-green-700">
-                        {s.price ? formatPrice(s.price) : "₹ 1,600.00"}
-                      </span>
-                    </div>
+                    {!isNearStore && (
+                      <div className="flex items-baseline space-x-2">
+                        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Session Fee:</span>
+                        <span className="text-xl font-bold text-green-700">
+                          {s.price ? formatPrice(s.price) : "₹ 1,600.00"}
+                        </span>
+                      </div>
+                    )}
 
                     <button
-                      onClick={() => openServiceForm(s)}
-                      className="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl text-white text-xs font-bold tracking-wider uppercase transition-all shadow-md hover:shadow-lg"
+                      onClick={() => {
+                        if (isNearStore) {
+                          navigate("/nearby");
+                        } else {
+                          openServiceForm(s);
+                        }
+                      }}
+                      className="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl text-white text-xs font-bold tracking-wider uppercase transition-all shadow-md hover:shadow-lg sm:ml-auto"
                       style={{ backgroundColor: PRIMARY }}
                     >
-                      <span>Book Consultancy</span>
+                      <span>{isNearStore ? "Locate Store" : "Book Consultancy"}</span>
                     </button>
                   </div>
                 </div>
@@ -302,11 +309,10 @@ export function ServicesPage(props: { services?: ServiceItem[] }) {
         })}
       </div>
 
-      {/* Unified Overlay Modal: Works cleanly across ALL viewports (including mobile) */}
+      {/* Unified Overlay Modal */}
       {activeFormService && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="relative w-full max-w-5xl my-auto">
-            {/* Close modal handle visible across all screens */}
             <button 
               onClick={closeFormModal}
               className="absolute top-3 right-3 z-50 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition-colors shadow-sm"
